@@ -12,10 +12,12 @@ const errorHandler = require("./errors/errorHandler")
 
 // router imports
 const moviesRouter = require("./movies/movies.router")
+const theatersRouter = require("./theaters/theaters.router")
 
 
 // routes
 app.use("/movies", moviesRouter)
+app.use("/theaters", theatersRouter)
 
 
 
