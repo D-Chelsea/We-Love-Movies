@@ -1,13 +1,12 @@
 const knex = require("../db/connection") // need knex for db management
 const mapProperties = require("../utils/map-properties")
-const table = "movies as m"
 
 function list() {
-    return knex(table).select("*")
+    return knex("movies").select("*")
 }
 
 function listCurrentlyShowing() {
-    return knex(table)
+    return knex("movies as m")
         .join("movies_theaters as mt", "m.movie_id", "mt.movie_id")
         .select("m.*")
         .where({ "mt.is_showing": true })
@@ -15,7 +14,7 @@ function listCurrentlyShowing() {
 }
 
 function readTheaters(movieId) {
-    return knex(table)
+    return knex("movies as m")
     .join("movies_theaters as mt", "mt.movie_id", "m.movie_id")
     .join("theaters as t", "t.theater_id", "mt.theater_id")
     .select("t.*")
@@ -23,7 +22,7 @@ function readTheaters(movieId) {
   }
 
 function read(movie_id) {
-    return knex(table)
+    return knex("movies")
         .select("*")
         .where({ movie_id })
         .first()
