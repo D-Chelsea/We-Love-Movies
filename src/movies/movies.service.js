@@ -14,6 +14,14 @@ function listCurrentlyShowing() {
         .groupBy("m.movie_id")
 }
 
+function readTheaters(movieId) {
+    return knex(table)
+    .join("movies_theaters as mt", "mt.movie_id", "m.movie_id")
+    .join("theaters as t", "t.theater_id", "mt.theater_id")
+    .select("t.*")
+    .where({"m.movie_id": movieId})
+  }
+
 function read(movie_id) {
     return knex(table)
         .select("*")
@@ -22,9 +30,11 @@ function read(movie_id) {
 }
 
 
+
 module.exports = {
     list,
     listCurrentlyShowing,
     read,
+    readTheaters,
 
 }
