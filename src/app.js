@@ -6,11 +6,11 @@ app.use(cors())
 app.use(express.json())
 
 
-// error imports
+// errors
 const notFound = require("./errors/notFound")
 const errorHandler = require("./errors/errorHandler")
 
-// router imports
+// routers
 const moviesRouter = require("./movies/movies.router")
 const theatersRouter = require("./theaters/theaters.router")
 const reviewsRouter = require("./reviews/reviews.router")

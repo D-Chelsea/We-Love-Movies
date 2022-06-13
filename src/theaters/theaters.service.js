@@ -11,13 +11,11 @@ const reduceMoves = reduceProperties("theater_id", {
 
 //lists all the theaters
 function list() {
-   
-    return knex("theaters as t")
-        .join("movies_theaters as mt", "t.theater_id", "mt.theater_id")
-        .join("movies as m", "m.movie_id", "mt.movie_id")
-        .where({ "mt.is_showing": true })
-        .select("*")
-        .then(reduceMoves)
+   return knex("theaters as t")
+    .join("movies_theaters as mt", "t.theater_id", "mt.theater_id")
+    .join("movies as m", "m.movie_id", "mt.movie_id")
+    .select("*")
+    .then(reduceMoves)
 }
 
 module.exports = {

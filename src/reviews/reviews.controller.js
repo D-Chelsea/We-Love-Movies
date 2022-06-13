@@ -10,6 +10,10 @@ async function reviewExists(req, res, next) {
     next({ status: 404, message: "Review cannot be found." });
 }
 
+async function read(req, res, next){
+  res.json({data: res.locals.review})
+}
+
 async function update(req, res) {
   const updatedReview = {
     ...req.body.data,
@@ -22,11 +26,9 @@ async function update(req, res) {
 async function destroy(req, res) {
   const { review } = res.locals;
   await service.delete(review.review_id);
-  res.sendStatus(204);
+  res.status(204).send("204 No Content")
 }
-async function read(req, res, next){
-    res.json({data: res.locals.review})
-}
+
 
 module.exports = {
   update: [asyncErrorBoundary(reviewExists), asyncErrorBoundary(update)],

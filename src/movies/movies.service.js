@@ -1,11 +1,29 @@
 const knex = require("../db/connection") // need knex for db management
 const mapProperties = require("../utils/map-properties")
 
+const criticInfo = mapProperties({
+    critic_id: "critic.critic_id",
+    preferred_name: "critic.preferred_name",
+    surname: "critic.surname",
+    organization_name: "critic.organization_name",
+    created_at: "critic.created_at",
+    updated_at: "critic.updated_at"
+  });
+  
+function readReviews(movieId) {
+    return knex("movies as m")
+    .join("reviews as r" , "r.movie_id", "m.movie_id")
+    .join("critics as c", "c.critic_id", "r.critic_id")
+    .where({"m.movie_id": movieId})
+    .select("*")
+    .then((reviews) => reviews.map(criticInfo))
+  }
+
 function list() {
     return knex("movies").select("*")
 }
 
-function listCurrentlyShowing() {
+function currentlyShowing() {
     return knex("movies as m")
         .join("movies_theaters as mt", "m.movie_id", "mt.movie_id")
         .select("m.*")
@@ -21,10 +39,10 @@ function readTheaters(movieId) {
     .where({"m.movie_id": movieId})
   }
 
-function read(movie_id) {
-    return knex("movies")
+function read(movieId) {
+    return knex("movies as m")
         .select("*")
-        .where({ movie_id })
+        .where({ "m.movie_id" : movieId })
         .first()
 }
 
@@ -32,8 +50,8 @@ function read(movie_id) {
 
 module.exports = {
     list,
-    listCurrentlyShowing,
+    currentlyShowing,
     read,
     readTheaters,
-
+    readReviews
 }
